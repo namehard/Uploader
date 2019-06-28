@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>CustomView</title>
+    <title>Uploader</title>
     <style>
         html,
         body {
@@ -13,18 +13,22 @@
             height: 100%;
         }
     </style>
-    <script src="../../../../lib/ht.js"></script>
-    <script src="../../../../lib/ht-ui.js"></script>
-    <script src="../../../lib/ht-ui-example.js"></script>
+    <script src="../../../lib/ht.js"></script>
+    <script src="../../../lib/ht-ui.js"></script>
+    <script src="../../../lib/ht-ui-Uploader.js"></script>
     <script>
         function init() {
-            var customView = new ht.ui.CustomView();
-            customView.addToDOM(window, {
-                x: 10,
-                y: 10,
-                width: 200,
-                height: 200
+            hBox = new ht.ui.HBoxLayout();
+            uploader = new ht.ui.Uploader();
+            uploader.setBorder(new ht.ui.border.LineBorder(1, ht.ui.uiTheme.baseColor));
+            hBox.addView(uploader, {
+                width: 300,
+                height: 400,
+                marginLeft: 20,
+                marginTop: 20
             });
+
+            hBox.addToDOM();
         }
     </script>
 </head>

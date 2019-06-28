@@ -1,23 +1,25 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
     grunt.config('concat.plugin', {
         src: [
             '<%= srcDir %>/start.js',
             '<%= srcDir %>/core.js',
-            '<%= srcDir %>/upload.js',
-            '<%= srcDir %>/uploadInteractor.js',
+            '<%= srcDir %>/Uploader.js',
+            '<%= srcDir %>/FileData.js',
+            '<%= srcDir %>/UploaderFileDataInteractor.js',
             '<%= srcDir %>/end.js'
         ],
         dest: '<%= buildDir %>/ht-ui-<%= name %>-debug.js'
     });
     grunt.config('concat.api', {
         src: [
-            'ide-support/zh/upload.js'
+            'ide-support/zh/Uploader.js',
+            'ide-support/zh/UploaderFileData.js'
         ],
         dest: '<%= rootDir %>/build/ht-ui-<%= name %>-api_zh.js'
     });
     grunt.config('concat.api_en', {
         src: [
-            'ide-support/en/upload.js'
+            'ide-support/en/Uploader.js'
         ],
         dest: '<%= rootDir %>/build/ht-ui-<%= name %>-api_en.js'
     });

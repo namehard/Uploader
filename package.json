@@ -1,5 +1,5 @@
 {
-  "name": "upload",
+  "name": "uploader",
   "version": "0.0.1",
   "devDependencies": {
     "catharsis": "^0.8.8",

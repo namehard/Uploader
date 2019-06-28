@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Uploader</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script rel='ht-style' type='any'>
+        ({
+            'ht.ui.Label': {
+                textColor: ht.ui.uiTheme.baseColor,
+                textFont: "14px Arial"
+            }
+        })
+    </script>
+    <script src="../../../lib/ht.js"></script>
+    <script src="../../../lib/ht-ui.js"></script>
+    <script src="../../../lib/ht-ui-Uploader.js"></script>
+    <script>
+        // 注册新的图标集
+        ht.Default.setImage('newTrue', {
+            width: 100,
+            height: 100,
+            comps: [
+                {
+                    type: "oval",
+                    background: "rgba(255,255,255,0)",
+                    borderWidth: 6,
+                    borderColor: "rgb(0,153,173)",
+                    rect: [2,2,96,96]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(0,153,173)",
+                    borderCap: "round",
+                    points: [22.06653,48.17828,41.59398,69.55356,77.93347,32.20908]
+                }
+            ]
+        });
+        ht.Default.setImage('newFalse', {
+            width: 100,
+            height: 100,
+            comps: [
+                {
+                    type: "oval",
+                    background: "rgba(255,255,255,0)",
+                    borderWidth: 6,
+                    borderColor: "rgb(255,118,33)",
+                    rect: [2,2,96,96]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(255,118,33)",
+                    borderCap: "round",
+                    points: [28.6685,28.475,71.3315,71.525]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(255,118,33)",
+                    borderCap: "round",
+                    points: [28.6685,71.525,69.60367,28.475]
+                }
+            ]
+        });
+        ht.Default.setImage('newActiveDeleteIcon', {
+            width: 100,
+            height: 100,
+            comps: [
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(255,82,82)",
+                    borderCap: "round",
+                    points: [21.57525,24.73553,21.57525,87.88543,21.57525,87.88543,21.48116,92.88941,23.48295,95.12971,25.48474,97.37002,29.5824,96.84665,29.5824,96.84665,70.60876,96.84665,70.60876,96.84665,74.56305,97.22684,76.51705,95.12971,78.47105,93.03259,78.42475,88.45815,78.42475,88.45815,78.42475,24.73553],
+                    segments: [1,2,4,4,2,4,4,2]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "rgb(255,82,82)",
+                    borderCap: "round",
+                    points: [35.50147,41.90484,35.50147,85.78198]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "rgb(255,82,82)",
+                    borderCap: "round",
+                    points: [49.97611,41.90484,49.97611,85.78198]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "rgb(255,82,82)",
+                    borderCap: "round",
+                    points: [64.49853,41.90484,64.49853,85.78198]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(255,82,82)",
+                    borderCap: "round",
+                    points: [12.99059,14.77733,87.00941,14.77733]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(255,82,82)",
+                    points: [42.19511,2.62998,58.34663,2.62998,58.34663,2.62998,61.67018,3.32589,63.17534,4.71692,64.68049,6.10796,65.05176,8.19412,65.05176,8.19412,65.05176,14.2241],
+                    segments: [1,2,4,4,2]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(255,82,82)",
+                    scaleX: -1,
+                    points: [34.26227,2.62998,50.41379,2.62998,50.41379,2.62998,53.73734,3.32589,55.2425,4.71692,56.74765,6.10796,57.11892,8.19412,57.11892,8.19412,57.11892,14.2241],
+                    segments: [1,2,4,4,2]
+                }
+            ]
+        });
+        ht.Default.setImage('newDeleteIcon', {
+            width: 100,
+            height: 100,
+            comps: [
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "#979797",
+                    borderCap: "round",
+                    points: [21.57525,19.73553,21.57525,82.88543,21.57525,82.88543,21.48116,87.88941,23.48295,90.12971,25.48474,92.37002,29.5824,91.84665,29.5824,91.84665,70.60876,91.84665,70.60876,91.84665,74.56305,92.22684,76.51705,90.12971,78.47105,88.03259,78.42475,83.45815,78.42475,83.45815,78.42475,19.73553],
+                    segments: [1,2,4,4,2,4,4,2]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "#979797",
+                    borderCap: "round",
+                    points: [35.50147,36.90484,35.50147,80.78198]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "#979797",
+                    borderCap: "round",
+                    points: [49.97611,36.90484,49.97611,80.78198]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "#979797",
+                    borderCap: "round",
+                    points: [64.49853,36.90484,64.49853,80.78198]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "#979797",
+                    borderCap: "round",
+                    points: [12.99059,19.77733,87.00941,19.77733]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "#979797",
+                    points: [42.19511,7.62998,58.34663,7.62998,58.34663,7.62998,61.67018,8.32589,63.17534,9.71692,64.68049,11.10796,65.05176,13.19412,65.05176,13.19412,65.05176,19.2241],
+                    segments: [1,2,4,4,2]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "#979797",
+                    scaleX: -1,
+                    points: [34.26227,7.62998,50.41379,7.62998,50.41379,7.62998,53.73734,8.32589,55.2425,9.71692,56.74765,11.10796,57.11892,13.19412,57.11892,13.19412,57.11892,19.2241],
+                    segments: [1,2,4,4,2]
+                }
+            ]
+        });
+        ht.Default.setImage('newHoverDeleteIcon', {
+            width: 100,
+            height: 100,
+            comps: [
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(87,255,244)",
+                    borderCap: "round",
+                    points: [20.8894,24.50118,20.8894,87.99242,20.8894,87.99242,20.7948,93.02345,22.80741,95.27586,24.82003,97.52827,28.93983,97.00207,28.93983,97.00207,70.18794,97.00207,70.18794,97.00207,74.16362,97.38432,76.12818,95.27586,78.09274,93.1674,78.0462,88.56824,78.0462,88.56824,78.0462,24.50118],
+                    segments: [1,2,4,4,2,4,4,2 ]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "rgb(87,255,244)",
+                    borderCap: "round",
+                    points: [34.89089,41.76329,34.89089,85.87759]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "rgb(87,255,244)",
+                    borderCap: "round",
+                    points: [49.44378,41.76329,49.44378,85.87759]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 4,
+                    borderColor: "rgb(87,255,244)",
+                    borderCap: "round",
+                    points: [64.0447,41.76329,64.0447,85.87759]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(87,255,244)",
+                    borderCap: "round",
+                    rotation: 0.17453,
+                    points: [12.79054,17.49205,87.20946,17.49205]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(87,255,244)",
+                    anchorX: 0.35816,
+                    anchorY: 1.04772,
+                    rotation: 0.17453,
+                    points: [41.9495,5.07561,58.18832,5.07561,58.18832,5.07561,61.52983,5.77527,63.04313,7.17383,64.55641,8.57238,64.92969,10.66982,64.92969,10.66982,64.92969,16.73239],
+                    segments: [1,2,4,4,2]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 6,
+                    borderColor: "rgb(87,255,244)",
+                    anchorX: 0.25,
+                    anchorY: 1.04772,
+                    scaleX: -1,
+                    rotation: 0.17453,
+                    points: [45.6673,5.27904,61.90612,5.27904,61.90612,5.27904,65.24765,5.9787,66.76093,7.37726,68.27423,8.77581,68.6475,10.87325,68.6475,10.87325,68.6475,16.93582],
+                    segments: [1,2,4,4,2]
+                }
+            ]
+        });
+        ht.Default.setImage('Uploader_file_white', {
+                width: 100,
+                height: 100,
+                comps: [{
+                    type: "shape",
+                    borderWidth: 3,
+                    borderColor: "#f9f9f9",
+                    closePath: true,
+                    points: [10.67198, 1.97609, 10.67198, 97.57298, 88.57743, 98.02391, 88.57743, 28.12996, 66.44036, 1.97609]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 3,
+                    borderColor: "#f9f9f9",
+                    points: [66.44036, 1.97609, 66.44036, 27.67903, 88.36457, 27.67903]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 3,
+                    borderColor: "#f9f9f9",
+                    points: [24.29479, 52.48011, 73.46462, 52.70557]
+                },
+                {
+                    type: "shape",
+                    borderWidth: 3,
+                    borderColor: "#f9f9f9",
+                    points: [24.29479, 75.25201, 73.85606, 75.25201]
+                }
+                ]
+            });
+        function init() {
+            hBox        = new ht.ui.HBoxLayout();
+            
+            // 更改上传按钮样式
+            ht.ui.Uploader.prototype.createButton = function () {
+                var button = new ht.ui.Button();
+                button.setBackground('rgb(0,153,173)');
+                button.setTextColor('#F7FFFF');
+                button.setText('上传文件');
+                button.setActiveTextColor('rgb(0,153,173)');
+                button.setHoverTextColor('rgb(0,153,173)');
+                button.setBorder(new ht.ui.border.LineBorder(1, 'rgb(0,153,173)'));
+                return button;
+            };
+            
+            uploader = new ht.ui.Uploader();
+
+            // 更改图标集
+            uploader.setTrueIcon('newTrue');
+            uploader.setFalseIcon('newFalse');
+            uploader.setDeleteIcon('newDeleteIcon');
+            uploader.setHoverDeleteIcon('newHoverDeleteIcon');
+            uploader.setActiveDeleteIcon('newActiveDeleteIcon');
+            
+            // 更新省略后缀
+            uploader.setSuffix('···');
+
+            // 设置右侧图标大小
+            uploader.setRightIconWidth(20);
+            uploader.setRightIconHeight(20);
+            uploader.setBorder(new ht.ui.border.LineBorder(1, ht.ui.uiTheme.baseColor));
+
+            // 设置 uploader gap
+            uploader.setGap(20);
+            
+            fileDataNumber = 0;
+
+            // 循环设置 fileData 状态
+            uploader.addViewListener(e => {
+                if (e.kind === 'fileDataCreating') {
+                    switch (fileDataNumber % 3) {
+                        case 0:
+                            e.data.setUploadState('waiting');
+                            break;
+                        case 1:
+                            e.data.setUploadState(true);
+                            break;
+                        case 2:
+                            e.data.setUploadState(false);
+                            break;
+                        default:
+                            e.data.setUploadState('waiting');
+                            break;
+                    }
+                    switch (fileDataNumber % 2) {
+                        case 0:
+                            e.data.setBackground('#a2a2a2');
+                            e.data.setIcon('Uploader_file_white');
+                            e.data.setHoverIcon('Uploader_file');
+                            e.data.setActiveIcon('Uploader_file');
+                            e.data.setTextColor('#f0f0f0');
+                            break;
+                        case 1:
+                            e.data.setTextColor('#929292');
+                            e.data.setBackground('#f0f0f0');
+                            break;
+                        default:
+                            e.data.setBackground('#a2a2a2');
+                            e.data.setTextColor('#f0f0f0');
+                            break;
+                    }
+                    e.data.setHoverBackground('rgba(255,118,33, 0.1)');
+                    e.data.setHoverTextColor('rgb(0,153,173)');
+                    fileDataNumber ++;
+                }
+            });
+            
+            hBox.addView(uploader, {
+                marginTop: 20,
+                marginLeft: 20,
+                width: 300,
+                height: 400,
+            });
+            vBox = new ht.ui.VBoxLayout();
+            button = new ht.ui.Button()
+            button.setText('布局颠倒');
+            button.on('click', e => {
+                uploader.reverse();
+            });
+
+            vBox.addView(button, {
+                marginTop: 40,
+                marginLeft: 20,
+                width: 100,
+            })
+
+            comboBox = new ht.ui.ComboBox();
+            comboBox.setDatas(['left', 'center', 'right']);
+            comboBox.setValue('left');
+            comboBox.setReadOnly(true);
+            comboBox.setBorder(new ht.ui.border.LineBorder(1, ht.ui.uiTheme.baseColor));
+            comboBox.on('p:value', function (e) {
+                uploader.setAlign(e.newValue);
+            });
+
+            vBox.addView(comboBox, {
+                marginTop: 40,
+                marginLeft: 20,
+                width: 100,
+            });
+
+            hBox.addView(vBox)
+
+            hBox.addToDOM();
+        }
+    </script>
+</head>
+
+<body onload="init();">
+
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Uploader</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="../../../lib/ht.js"></script>
+    <script src="../../../lib/ht-ui.js"></script>
+    <script src="../../../lib/ht-ui-Uploader.js"></script>
+    <script>
+        function init() {
+            hBox = new ht.ui.HBoxLayout();
+            uploader = new ht.ui.Uploader();
+
+            uploader.setBorder(new ht.ui.border.LineBorder(1, ht.ui.uiTheme.baseColor));
+            hBox.addView(uploader, {
+                width: 300,
+                height: 400,
+                marginLeft: 20,
+                marginTop: 20
+            });
+            submitButton = new ht.ui.Button();
+            submitButton.setText('模拟提交到服务器');
+
+            hBox.addView(submitButton, {
+                marginTop: 40,
+                marginLeft: 20
+            });
+            textArea = new ht.ui.TextArea();
+            textArea.figureTextSize = function () {
+                var tempInput = this._tempInput;
+                if (!tempInput) {
+                    tempInput = this._tempInput = document.createElement('textarea');
+                    tempInput.style.visibility = 'hidden';
+                    tempInput.style.boxSizing = 'border-box';
+                    tempInput.style.border = '0';
+                    tempInput.style.overflow = 'hidden';
+                    tempInput.style.resize = 'none';
+                    tempInput.style.outline = 'none';
+                    tempInput.style.position = "absolute";
+                }
+
+                var input = this.getInput();
+                var font = this.getFont();
+                var lineHeight = this.getLineHeight();
+                var width = this.getContentWidth();
+
+                tempInput.style.font = font;
+                tempInput.style.lineHeight = lineHeight + 'px';
+                tempInput.value = input.value;
+                if (width != null)
+                    tempInput.style.width = width + 'px';
+
+                document.body.appendChild(tempInput);
+                var size = {
+                    width: tempInput.scrollWidth,
+                    height: tempInput.scrollHeight
+                };
+                document.body.removeChild(tempInput);
+                return size;
+            };
+            textArea.setAutoRefreshPreferredSize(true);
+            textArea.setInstant(true);
+            textArea.setReadOnly(true);
+            textArea.setFont('12px Arial');
+            textArea.setMinSize({
+                width: 200,
+                height: 100
+            });
+
+            hBox.addView(textArea, {
+                width: 300,
+                height: 400,
+                marginTop: 20,
+                marginLeft: 20
+            });
+
+            textArea.setBorder(new ht.ui.border.LineBorder(1, ht.ui.uiTheme.baseColor));
+
+            submitButton.on('click', function(e) {
+                textArea.setValue();
+                submitButton.setDisabled(true);
+                uploader.setDisabled(true);
+
+                var fileDatas   = uploader.getFileDatas(),
+                    size        = fileDatas.size(),
+                    index       = 0,
+                    interval;
+
+                fileDatas.each(function(e, i) {
+                    e.setUploadState('waiting');
+                });
+                
+                interval = setInterval(() => {
+                    if (index < size) {
+                        var fileData = fileDatas.get(index),
+                            file     = fileData.getFile(),
+                            fullName = file.fullName;
+
+                        if (index % 2 === 0) {
+                            textArea.setValue((textArea.getValue() ? textArea.getValue() : '') + fullName + ' 上传成功\n');
+                            fileData.setUploadState(true);
+                        } else {
+                            textArea.setValue((textArea.getValue() ? textArea.getValue() : '') + fullName + ' 上传失败\n');
+                            fileData.setUploadState(false);
+                        }
+                        index ++;
+                    } else {
+                        submitButton.setDisabled(false);
+                        uploader.setDisabled(false);
+                        clearInterval(interval);
+                    }
+                }, 300);
+            });
+
+            hBox.addToDOM();
+        }
+    </script>
+</head>
+
+<body onload="init();">
+
+</body>
+
+</html>

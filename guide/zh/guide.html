@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>HT CustomView 手册</title>
+        <title>HT Uploader 手册</title>
         <meta charset="UTF-8">    
         <meta name="viewport" content="user-scalable=yes, width=1024">
         <style type="text/css"> 
@@ -172,11 +172,11 @@
         </script>    
     </head>
     <body onload="init();">
-        <a href="http://www.hightopo.com"><img class="logo"></a>HT CustomView 手册
+        <a href="http://www.hightopo.com"><img class="logo"></a>HT uploader 手册
         <hr style="margin: 1px 0 20px 0">
 <p>索引</p>
 
-<ul><li><a href="#ref_description">概述</a></li></ul>
+<ul><li><a href="#ref_description">概述</a></li><li><a href="#ref_base">基础功能</a></li><li><a href="#ref_popOption">弹窗设置</a></li><li><a href="#ref_state">上传状态</a></li><li><a href="#ref_style">组件样式</a></li><li><a href="#ref_filter">上传筛选</a></li></ul>
 
 <hr/>
 
@@ -184,17 +184,142 @@
 
 <h3>概述</h3>
 
-<p><code>ht.ui.CustomView</code> 自定义组件示例子，点击组件时切换形状</p>
+<p><code>ht.ui.Uploader</code> 上传组件，点击上传按钮增加上传文件列表，可以通过对上传列表编辑控制上传文件内容。</p>
 
 <p>使用此组件需要先引入 <code>js</code> 文件</p>
 
 <pre><code>&lt;script src=&quot;ht.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;ht-ui.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;ht-ui-example.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;ht-ui-Uploader.js&quot;&gt;&lt;/script&gt;</code></pre>
 
 <p>示范例子：</p>
 
-<p><iframe src="examples/example_demo.html" style="height:300px"></iframe></p>    <hr id="contact" style="margin: 20px 0 1px 0">
+<p><iframe src="examples/example_demo.html" style="height:440px"></iframe></p>
+
+<div id="ref_base"></div>
+
+<h3>基础功能</h3>
+
+<p>组件提供 <code>getFiles</code> 方法获取上传文件表内的文件集合 <a href="http://www.hightopo.com/guide/guide/core/beginners/ht-beginners-guide.html#ref_list"><code>ht.List</code></a>，并能通过鼠标点击 <code>delete</code> 按钮删除上传列表内文件，可以重载 <code>handleFileDataDelete</code> 做其他操作，利用 <code>removeFileData</code> 做删除操作，默认代码如下：</p>
+
+<pre><code>uploader.handleFileDataDelete = function (fileData) {
+    var self = this;
+    self.removeFileData(fileData);
+}</code></pre>
+
+<div id="ref_popOption"></div>
+
+<h3>弹窗设置</h3>
+
+<p>组件点击上传按钮后，有一个文件选择弹窗，有两个相关属性 <code>multiple</code> 和 <code>accept</code>：</p>
+
+<ul><li><code>multiple</code>：控制弹窗内是否支持运用 <code>鼠标框选</code> 按住 <code>ctrl</code> 或者 <code>shift</code> 等方式进行多选，默认为 <code>true</code></li><li><code>accept</code>：控制弹窗默认接收文件类型，默认为 <code>&#39;all&#39;</code>，即全部类型，可设置为 <code>&#39;.jpg&#39;</code> 等等相关文件类型</li></ul>
+
+<p><iframe src="examples/example_uploaderPop.html" style="height:240px"></iframe></p>
+
+<p>代码如下：</p>
+
+<pre><code>uploader.setMultiple(false);
+uploader.setAccept(&#39;.jpg, .png&#39;);</code></pre>
+
+<div id="ref_state"></div>
+
+<h3>上传状态</h3>
+
+<p>组件提供对上传列表内的文件设置上传状态，以此显示出文件提交到服务器的成功与否，通过对子组件 <code>fileData</code> 的 <code>uploadState</code> 属性进行设置控制状态图标，默认为 <code>&#39;waiting&#39;</code> 不显示状态图标，<code>true</code> 和 <code>false</code> 分别显示对应的状态图标</p>
+
+<p><iframe src="examples/example_uploadState.html" style="height:440px"></iframe></p>
+
+<pre><code>fileData.setUploadState(true);
+fileData.setUploadState(false);</code></pre>
+
+<p>可以通过 <code>getFileDatas</code> 获取到 <code>fileData</code> 的 <a href="http://www.hightopo.com/guide/guide/core/beginners/ht-beginners-guide.html#ref_list"><code>ht.List</code></a> 集合，每个 <code>fileData</code> 内部保存的文件都有一个属性 <code>fullName</code> 作为唯一标识，其规则为 <code>绝对路径</code> + <code>文件名称</code>，所以 <code>uploader</code> 组件拒绝 <code>fullName</code> 完全相同的文件重复上传</p>
+
+<pre><code>file     = fileData.getFile();
+fullName = file.fullName;</code></pre>
+
+<div id="ref_style"></div>
+
+<h3>组件样式</h3>
+
+<p>组件可以通过配置对样式进行设置</p>
+
+<p><iframe src="examples/example_uploaderStyle.html" style="height:440px"></iframe></p>
+
+<p>组件提供对 <code>suffix</code>、 <code>trueIcon</code>、 <code>falseIcon</code>、 <code>deleteIcon</code>  等样式属性进行调整</p>
+
+<ul><li><code>suffix</code>：上传文件名过长时，结尾省略的字段，默认 <code>...</code></li><li><code>trueIcon</code>：上传成功态图标，大小通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制，提供 <code>Drawable</code> 对象可进行绘制控制</li><li><code>falseIcon</code>：上传失败态图标，大小通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制，提供 <code>Drawable</code> 对象可进行绘制控制</li><li><code>deleteIcon</code>：删除图标，分为 <code>hover</code>、 <code>active</code>、 <code>normal</code> 三态，分别通过 <code>hoverDeleteIcon</code>、 <code>activeDeleteIcon</code>、 <code>deleteIcon</code> 三个样式属性控制，三态均通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制大小，但是三态分别提供独立的 <code>Drawable</code> 对象</li></ul>
+
+<p>代码如下：</p>
+
+<pre><code> // 更改图标集
+uploader.setTrueIcon(&#39;newTrue&#39;);
+uploader.setFalseIcon(&#39;newFalse&#39;);
+uploader.setDeleteIcon(&#39;newDeleteIcon&#39;);
+uploader.setHoverDeleteIcon(&#39;newHoverDeleteIcon&#39;);
+uploader.setActiveDeleteIcon(&#39;newActiveDeleteIcon&#39;);
+
+// 更新省略后缀
+uploader.setSuffix(&#39;···&#39;);
+
+// 设置右侧图标大小
+uploader.setRightIconWidth(20);
+uploader.setRightIconHeight(20);</code></pre>
+
+<p>组件的上传按钮继承于 <a href="http://www.hightopo.cn/ui/guide/zh/button/ht-ui-button-guide.html"><code>ht.ui.Button</code></a>，可以通过重构原型 <code>prototype</code> 上的 <code>createButton</code> 函数对上传按钮样式进行定义，代码如下：</p>
+
+<pre><code>ht.ui.Uploader.prototype.createButton = function () {
+    var button = new ht.ui.Button();
+    button.setBackground(&#39;rgb(0,153,173)&#39;);
+    button.setTextColor(&#39;#F7FFFF&#39;);
+    button.setText(&#39;上传文件&#39;);
+    button.setActiveTextColor(&#39;rgb(0,153,173)&#39;);
+    button.setHoverTextColor(&#39;rgb(0,153,173)&#39;);
+    button.setBorder(new ht.ui.border.LineBorder(1, &#39;rgb(0,153,173)&#39;));
+    return button;
+};</code></pre>
+
+<p>子组件 <code>fileData</code> 也继承于 <a href="http://www.hightopo.cn/ui/guide/zh/button/ht-ui-button-guide.html"><code>ht.ui.Button</code></a>，可以通过 <code>addViewListener</code> 监听 <code>fileDataAdded</code> 事件对独立的 <code>fileData</code> 进行样式控制，代码如下：</p>
+
+<pre><code>fileDataNumber = 0;
+uploader.addViewListener(e =&gt; {
+    if (e.kind === &#39;fileDataCreating&#39;) {
+        switch (fileDataNumber % 2) {
+            case 0:
+                e.data.setBackground(&#39;#a2a2a2&#39;);
+                e.data.setIcon(&#39;Uploader_file_white&#39;);
+                e.data.setHoverIcon(&#39;Uploader_file&#39;);
+                e.data.setActiveIcon(&#39;Uploader_file&#39;);
+                e.data.setTextColor(&#39;#f0f0f0&#39;);
+                break;
+            case 1:
+                e.data.setTextColor(&#39;#929292&#39;);
+                e.data.setBackground(&#39;#f0f0f0&#39;);
+                break;
+            default:
+                e.data.setBackground(&#39;#a2a2a2&#39;);
+                e.data.setTextColor(&#39;#f0f0f0&#39;);
+                break;
+        }
+        e.data.setHoverBackground(&#39;rgba(255,118,33, 0.1)&#39;);
+        e.data.setHoverTextColor(&#39;rgb(0,153,173)&#39;);
+        fileDataNumber ++;
+    }
+});</code></pre>
+
+<p>组件自身继承于 <a href="http://www.hightopo.cn/ui/guide/zh/hbox&amp;vbox/ht-ui-hbox&amp;vbox-guide.html#ref_vbox"><code>ht.ui.VBoxLayout</code></a>，通过调节 <code>align</code>、 <code>gap</code> 等等属性改变布局效果，并提供一个布局颠倒方法 <code>reverse</code>，组件设置了最小尺寸 <code>minsize</code>，默认 <code>width</code> 为 300，<code>height</code> 为 100</p>
+
+<div id="ref_filter"></div>
+
+<h3>上传筛选</h3>
+
+<p>也可以实现上传文件筛选功能，取消过大的文件或者其他方面不符合要求的文件，代码如下：</p>
+
+<pre><code>uploader.setFileFilterFunc(function(file) {
+    return file.size &gt; 512000 ? false: true;
+});</code></pre>
+
+<p><iframe src="examples/example_uploaderFilter.html" style="height:440px"></iframe></p>    <hr id="contact" style="margin: 20px 0 1px 0">
     <a href="http://www.hightopo.com"><img class="logo"></a>欢迎交流 <a href="mailto:service@hightopo.com">service@hightopo.com</a>
 </body>
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Uploader</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script rel='ht-style' type='any'>
+        ({
+            'ht.ui.Label': {
+                textColor: ht.ui.uiTheme.baseColor,
+                textFont: "14px Arial"
+            }
+        })
+    </script>
+    <script src="../../../lib/ht.js"></script>
+    <script src="../../../lib/ht-ui.js"></script>
+    <script src="../../../lib/ht-ui-Uploader.js"></script>
+    <script>
+        function init() {
+            hBox        = new ht.ui.HBoxLayout();
+            vBox        = new ht.ui.VBoxLayout();
+            uploader    = new ht.ui.Uploader();
+
+            uploader.setBorder(new ht.ui.border.LineBorder(1, ht.ui.uiTheme.baseColor));
+
+
+            var label = new ht.ui.Label();
+            label.setText('筛选出小于 500kb 的上传文件');
+            label.setMargin(10);
+            vBox.setAlign('center');
+            vBox.addView(label);
+            vBox.addView(uploader, {
+                width: 300,
+                height: 400
+            });
+            
+            uploader.setFileFilterFunc(function(file) {
+                return file.size > 512000 ? false: true;
+            });
+            
+            hBox.addView(vBox, {
+                marginLeft: 20
+            });
+
+            hBox.addToDOM();
+        }
+    </script>
+</head>
+
+<body onload="init();">
+
+</body>
+
+</html>

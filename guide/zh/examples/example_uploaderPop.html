@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Uploader</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script rel='ht-style' type='any'>
+        ({
+            'ht.ui.Label': {
+                textColor: ht.ui.uiTheme.baseColor,
+                textFont: "14px Arial"
+            }
+        })
+    </script>
+    <script src="../../../lib/ht.js"></script>
+    <script src="../../../lib/ht-ui.js"></script>
+    <script src="../../../lib/ht-ui-Uploader.js"></script>
+    <script>
+        function init() {
+            hBox        = new ht.ui.HBoxLayout();
+            VBoxLeft    = new ht.ui.VBoxLayout();
+            VBoxRight   = new ht.ui.VBoxLayout();
+
+            uploaderLeft    = new ht.ui.Uploader();
+            uploaderRight   = new ht.ui.Uploader();
+
+            uploaderLeft.setBorder(new ht.ui.border.LineBorder(1, ht.ui.uiTheme.baseColor));
+            uploaderRight.setBorder(new ht.ui.border.LineBorder(1, ht.ui.uiTheme.baseColor));
+
+            uploaderRight.setMultiple(false);
+            uploaderRight.setAccept('.jpg, .png');
+
+            var label = new ht.ui.Label();
+            label.setText('默认模式，弹窗默认接收所有文件且可以多选');
+            label.setMargin(10);
+            VBoxLeft.setAlign('center');
+            VBoxLeft.addView(label);
+            VBoxLeft.addView(uploaderLeft, {
+                width: 300,
+                height: 180
+            });
+            label = new ht.ui.Label();
+            label.setText('修改后，弹窗默认接收文件 .jpg.png 且只能单选');
+            label.setMargin(10);
+            VBoxRight.setAlign('center');
+            VBoxRight.addView(label);
+            VBoxRight.addView(uploaderRight, {
+                width: 300,
+                height: 180
+            });
+            
+            hBox.addView(VBoxLeft, {
+                marginLeft: 20
+            });
+            hBox.addView(VBoxRight, {
+                marginLeft: 20
+            });
+
+            hBox.addToDOM();
+        }
+    </script>
+</head>
+
+<body onload="init();">
+
+</body>
+
+</html>
