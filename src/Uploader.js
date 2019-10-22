@@ -35,7 +35,7 @@ ui.Uploader = function() {
 
 Default.def('ht.ui.Uploader', ui.VBoxLayout, {
     ms_ac: [
-        'fileFilterFunc', 'multiple', 'accept', 'suffix'
+        'fileFilterFunc', 'multiple', 'accept', 'suffix', 'limit'
     ],
 
     ui_ac: [
@@ -64,6 +64,7 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
     _multiple: true,
     _accept: 'all',
     _suffix: '...',
+    _limit: 20,
 
     _fileFilterFunc: function (file) {
         var isFilter = true;
@@ -116,7 +117,9 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
             inputFilesList = self._getInputFilesList(),
             path = self._getInputFilesListPath(),
             fileFilterFunc = self.getFileFilterFunc(),
-            fileDatas = self.getFileDatas();
+            fileDatas = self.getFileDatas(),
+            limit = self.getLimit(),
+            fileList = self._fileList;
 
         inputFilesList.each(function (data) {
             var fullName = path + data.name,
@@ -125,25 +128,89 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
             data.fullName = fullName;
 
             if (fileFilterFunc(data)) {
-                var fileData = new ui.UploaderFileData(self);
 
-                self.fireViewEvent({
-                    kind: 'fileDataCreating',
-                    data: fileData,
-                    source: self
-                });
+                if (limit) {
+                    var fileListSize = fileList.getChildren().size();
+                    if (fileListSize >= limit) {
+                        var diffSize = fileListSize - limit,
+                            removeList = new ht.List();
 
-                fileData.setFile(data);
+                        fileList.getChildren().each(function (exist, ind) {
+                            if (ind < diffSize) {
+                                removeList.add(exist);
+                            }
+                        });
 
-                for (var i = 0; i < fileDatas.length; i++) {
-                    var file = fileDatas.get(i).getFile();
-                    if (fullName === file.fullName) {
-                        has = true;
-                        break;
+                        removeList.each(function (removeData) {
+                            self.removeFileData(removeData);
+                        });
+
+                        var fileData = new ui.UploaderFileData(self);
+
+                        self.fireViewEvent({
+                            kind: 'fileDataCreating',
+                            data: fileData,
+                            source: self
+                        });
+
+                        fileData.setFile(data);
+
+                        for (var i = 0; i < fileDatas.length; i++) {
+                            var file = fileDatas.get(i).getFile();
+                            if (fullName === file.fullName) {
+                                has = true;
+                                break;
+                            }
+                        }
+
+                        if (!has) {
+                            self.removeFileData(fileList.getChildren().get(0));
+                            self._addFileData(fileData);
+                        }
+
+                    } else {
+                        var fileData = new ui.UploaderFileData(self);
+
+                        self.fireViewEvent({
+                            kind: 'fileDataCreating',
+                            data: fileData,
+                            source: self
+                        });
+
+                        fileData.setFile(data);
+
+                        for (var i = 0; i < fileDatas.length; i++) {
+                            var file = fileDatas.get(i).getFile();
+                            if (fullName === file.fullName) {
+                                has = true;
+                                break;
+                            }
+                        }
+
+                        !has && self._addFileData(fileData);
                     }
-                }
 
-                !has && self._addFileData(fileData);
+                } else {
+                    var fileData = new ui.UploaderFileData(self);
+
+                    self.fireViewEvent({
+                        kind: 'fileDataCreating',
+                        data: fileData,
+                        source: self
+                    });
+
+                    fileData.setFile(data);
+
+                    for (var i = 0; i < fileDatas.length; i++) {
+                        var file = fileDatas.get(i).getFile();
+                        if (fullName === file.fullName) {
+                            has = true;
+                            break;
+                        }
+                    }
+
+                    !has && self._addFileData(fileData);
+                }
             }
         });
     },
@@ -193,6 +260,26 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
         }
 
         self.setPropertyValue("accept", type);
+    },
+
+    setLimit: function (limit) {
+        var self = this,
+            fileList = self._fileList,
+            fileListSize = fileList.getChildren().size();
+
+        if (fileListSize > limit) {
+            var diffSize = fileListSize - limit,
+                removeList = new ht.List();
+            fileList.getChildren().each(function (existFile, ind) {
+                if (ind < diffSize) {
+                    removeList.add(existFile);
+                }
+            });
+            removeList.each(function (data) {
+                self.removeFileData(data);
+            });
+        }
+        self.setPropertyValue("multiple", limit);
     },
     
     // 是否支持多文件上传

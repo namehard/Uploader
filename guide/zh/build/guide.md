@@ -20,7 +20,7 @@
 
     <script src="ht.js"></script>
     <script src="ht-ui.js"></script>
-    <script src="ht-ui-Uploader.js"></script>
+    <script src="ht-ui-uploader.js"></script>
 
 示范例子：
 
@@ -30,11 +30,10 @@
 
 ### 基础功能
 
-组件提供 `getFiles` 方法获取上传文件表内的文件集合 [`ht.List`](http://www.hightopo.com/guide/guide/core/beginners/ht-beginners-guide.html#ref_list)，并能通过鼠标点击 `delete` 按钮删除上传列表内文件，可以重载 `handleFileDataDelete` 做其他操作，利用 `removeFileData` 做删除操作，默认代码如下：
+组件提供 `getFiles` 方法获取上传文件列表内的文件集合 [`ht.List`](http://www.hightopo.com/guide/guide/core/beginners/ht-beginners-guide.html#ref_list)，并能通过鼠标点击 `delete` 按钮删除上传列表内文件，可以重载 `handleFileDataDelete` 做其他操作，最后利用 `removeFileData` 做删除即可，默认代码如下：
 
     uploader.handleFileDataDelete = function (fileData) {
-        var self = this;
-        self.removeFileData(fileData);
+        uploader.removeFileData(fileData);
     }
 
 !(#ref_popOption)
@@ -113,7 +112,7 @@
         return button;
     };
 
-子组件 `fileData` 也继承于 [`ht.ui.Button`](http://www.hightopo.cn/ui/guide/zh/button/ht-ui-button-guide.html)，可以通过 `addViewListener` 监听 `fileDataAdded` 事件对独立的 `fileData` 进行样式控制，代码如下：
+子组件 `fileData` 也继承于 [`ht.ui.Button`](http://www.hightopo.cn/ui/guide/zh/button/ht-ui-button-guide.html)，可以通过 `addViewListener` 监听 `fileDataCreating` 事件对独立的 `fileData` 进行样式控制，代码如下：
 
     fileDataNumber = 0;
     uploader.addViewListener(e => {
@@ -146,8 +145,7 @@
 !(#ref_filter)
 
 ### 上传筛选
-
-也可以实现上传文件筛选功能，取消过大的文件或者其他方面不符合要求的文件，代码如下：
+组件除了使用最简单的 `limit` 属性限制文件上传数量外，也可以实现上传文件筛选功能，取消过大的文件或者其他方面不符合要求的文件，代码如下：
 
     uploader.setFileFilterFunc(function(file) {
         return file.size > 512000 ? false: true;

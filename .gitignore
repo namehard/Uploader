@@ -5,3 +5,4 @@ jsdoc
 release
 node_modules
 readme_old.md
+.DS_Store

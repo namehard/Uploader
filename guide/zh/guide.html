@@ -190,7 +190,7 @@
 
 <pre><code>&lt;script src=&quot;ht.js&quot;&gt;&lt;/script&gt;
 &lt;script src=&quot;ht-ui.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;ht-ui-Uploader.js&quot;&gt;&lt;/script&gt;</code></pre>
+&lt;script src=&quot;ht-ui-uploader.js&quot;&gt;&lt;/script&gt;</code></pre>
 
 <p>示范例子：</p>
 
@@ -200,11 +200,10 @@
 
 <h3>基础功能</h3>
 
-<p>组件提供 <code>getFiles</code> 方法获取上传文件表内的文件集合 <a href="http://www.hightopo.com/guide/guide/core/beginners/ht-beginners-guide.html#ref_list"><code>ht.List</code></a>，并能通过鼠标点击 <code>delete</code> 按钮删除上传列表内文件，可以重载 <code>handleFileDataDelete</code> 做其他操作，利用 <code>removeFileData</code> 做删除操作，默认代码如下：</p>
+<p>组件提供 <code>getFiles</code> 方法获取上传文件列表内的文件集合 <a href="http://www.hightopo.com/guide/guide/core/beginners/ht-beginners-guide.html#ref_list"><code>ht.List</code></a>，并能通过鼠标点击 <code>delete</code> 按钮删除上传列表内文件，可以重载 <code>handleFileDataDelete</code> 做其他操作，最后利用 <code>removeFileData</code> 做删除即可，默认代码如下：</p>
 
 <pre><code>uploader.handleFileDataDelete = function (fileData) {
-    var self = this;
-    self.removeFileData(fileData);
+    uploader.removeFileData(fileData);
 }</code></pre>
 
 <div id="ref_popOption"></div>
@@ -279,7 +278,7 @@ uploader.setRightIconHeight(20);</code></pre>
     return button;
 };</code></pre>
 
-<p>子组件 <code>fileData</code> 也继承于 <a href="http://www.hightopo.cn/ui/guide/zh/button/ht-ui-button-guide.html"><code>ht.ui.Button</code></a>，可以通过 <code>addViewListener</code> 监听 <code>fileDataAdded</code> 事件对独立的 <code>fileData</code> 进行样式控制，代码如下：</p>
+<p>子组件 <code>fileData</code> 也继承于 <a href="http://www.hightopo.cn/ui/guide/zh/button/ht-ui-button-guide.html"><code>ht.ui.Button</code></a>，可以通过 <code>addViewListener</code> 监听 <code>fileDataCreating</code> 事件对独立的 <code>fileData</code> 进行样式控制，代码如下：</p>
 
 <pre><code>fileDataNumber = 0;
 uploader.addViewListener(e =&gt; {
@@ -313,7 +312,7 @@ uploader.addViewListener(e =&gt; {
 
 <h3>上传筛选</h3>
 
-<p>也可以实现上传文件筛选功能，取消过大的文件或者其他方面不符合要求的文件，代码如下：</p>
+<p>组件除了使用最简单的 <code>limit</code> 属性限制文件上传数量外，也可以实现上传文件筛选功能，取消过大的文件或者其他方面不符合要求的文件，代码如下：</p>
 
 <pre><code>uploader.setFileFilterFunc(function(file) {
     return file.size &gt; 512000 ? false: true;
