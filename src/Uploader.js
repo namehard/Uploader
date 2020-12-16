@@ -279,7 +279,7 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
                 self.removeFileData(data);
             });
         }
-        self.setPropertyValue("multiple", limit);
+        self.setPropertyValue("limit", limit);
     },
     
     // 是否支持多文件上传
@@ -358,5 +358,15 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
             rightIconHeight: true,
             rightIconWidth: true
         });
+    },
+
+    /**
+     * @description 清除所有上传数据
+     */
+    clearFileDatas: function() {
+        var self = this;
+        self.getFileDatas().each(function (fileData) {
+            self.removeFileData(fileData);
+        })
     }
 });

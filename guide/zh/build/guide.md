@@ -38,6 +38,8 @@
 
 !(#ref_popOption)
 
+如果需要一次性清空所有数据，可以通过 `clearFileDatas` 删除所有上传数据。
+
 ### 弹窗设置
 
 组件点击上传按钮后，有一个文件选择弹窗，有两个相关属性 `multiple` 和 `accept`：

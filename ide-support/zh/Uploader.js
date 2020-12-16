@@ -233,3 +233,9 @@ ht.ui.Uploader.prototype.getFiles = function () { }
  * 布局上下颠倒
  */
 ht.ui.Uploader.prototype.reverse = function () { }
+
+
+/**
+ * 删除所有上传数据
+ */
+ht.ui.Uploader.prototype.clearFileDatas = function () {}
