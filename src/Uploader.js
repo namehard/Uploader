@@ -33,6 +33,23 @@ ui.Uploader = function() {
 
 };
 
+// 设置 fileData 属性函数，不暴露单独封装
+var setFileDataPropertyValue = function(uploader, type, ukey, fkey, value) {
+    var prefix = type === 'ui' ? '__' : '_',
+        old = uploader[prefix + ukey],
+        getValue = function (key, param) { return value instanceof Function ? value(key, param) : value};
+    uploader[prefix + ukey] = getValue(ukey, uploader);
+    uploader._fileList.getChildren().each(function (fileData) {
+        if (fkey instanceof Array) 
+            fkey.forEach(function (key) {
+                fileData['set' + key[0].toUpperCase() + key.slice(1)](getValue(key, fileData));
+            })
+        else
+            fileData['set' + fkey[0].toUpperCase() + fkey.slice(1)](getValue(fkey, fileData));
+    })
+    uploader.fp(ukey, old, getValue(ukey, uploader));
+}
+
 Default.def('ht.ui.Uploader', ui.VBoxLayout, {
     ms_ac: [
         'fileFilterFunc', 'multiple', 'accept', 'suffix', 'limit', 'button'
@@ -286,63 +303,36 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
 
     setFileRowBackground: function (background) {
         var self = this;
-        var old = self.__fileRowBackground;
-        self.__fileRowBackground = background;
-        self._fileList.getChildren().each(function(fileData) {
-            fileData.setBackground(background);
-        })
-        self.fp('fileRowBackground', old, background);
-        
+        setFileDataPropertyValue(self, 'ui', 'fileRowBackground', 'background', background);
     },
     setFileHoverRowBackground: function (background) {
         var self = this;
-        var old = self.__fileHoverRowBackground;
-        self.__fileHoverRowBackground = background;
-        self._fileList.getChildren().each(function (fileData) {
-            fileData.setHoverBackground(background);
-            fileData.setActiveBackground(background);
-        })
-        self.fp('fileHoverRowBackground', old, background);
+        setFileDataPropertyValue(self, 'ui', 'fileHoverRowBackground', ['hoverBackground', 'activeBackground'], background);
     },
     setFileTextFont: function (textFont) {
         var self = this;
-        var old = self.__fileTextFont;
-        self.__fileTextFont = textFont;
-        self._fileList.getChildren().each(function(fileData) {
-            fileData.setTextFont(textFont);
-        })
-        self.fp('fileTextFont', old, textFont);
-
+        setFileDataPropertyValue(self, 'ui', 'fileTextFont', 'textFont', textFont);
     },
     setFileTextColor: function (textColor) {
         var self = this;
-        var old = self.__fileTextColor;
-        self.__fileTextColor = textColor;
-        self._fileList.getChildren().each(function(fileData) {
-            fileData.setTextColor(textColor);
-        })
-        self.fp('fileTextColor', old, textColor);
+        setFileDataPropertyValue(self, 'ui', 'fileTextColor', 'textColor', textColor);
     },
 
     setFileHoverTextColor: function (textColor) {
         var self = this;
-        var old = self.__fileHoverTextColor;
-        self.__fileHoverTextColor = textColor;
-        self._fileList.getChildren().each(function(fileData) {
-            fileData.setHoverTextColor(textColor);
-            fileData.setActiveTextColor(textColor);
-        })
-        self.fp('fileHoverTextColor', old, textColor);
+        setFileDataPropertyValue(self, 'ui', 'fileHoverTextColor', ['hoverTextColor', 'activeTextColor'], textColor);
     },
 
     setFileRowHeight: function (height) {
         var self = this;
-        var old = self.__fileRowHeight;
-        self.__fileRowHeight = height;
-        self._fileList.getChildren().each(function(fileData) {
-            fileData.setLayoutParams('height', height);
-        })
-        self.fp('fileRowHeight', old, height);
+        setFileDataPropertyValue(self, 'ui', 'fileRowHeight', 'layoutParams', function (key, obj) {
+            var result = height;
+            if (key === 'layoutParams') {
+                result = ht.Default.clone(obj.getLayoutParams());
+                result.height = height;
+            }
+            return result;
+        });
     },
 
     setAccept: function (type) {
