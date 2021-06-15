@@ -20,7 +20,7 @@ ui.Uploader = function() {
 
     button.on('click', function () {
         inputFile.click();
-    });
+    }, undefined, undefined, undefined, true);
 
     self._button = button;
     self._fileList = fileList;
@@ -35,13 +35,13 @@ ui.Uploader = function() {
 
 Default.def('ht.ui.Uploader', ui.VBoxLayout, {
     ms_ac: [
-        'fileFilterFunc', 'multiple', 'accept', 'suffix', 'limit'
+        'fileFilterFunc', 'multiple', 'accept', 'suffix', 'limit', 'button'
     ],
 
     ui_ac: [
         'drawable:deleteIcon', 'drawable:activeDeleteIcon', 'drawable:hoverDeleteIcon',
         'drawable:trueIcon', 'drawable:falseIcon',
-        'rightIconHeight', 'rightIconWidth'
+        'rightIconHeight', 'rightIconWidth', 'fileRowBackground', 'fileHoverRowBackground', 'fileTextColor', 'fileHoverTextColor', 'fileTextFont', 'fileRowHeight'
     ],
     
     __padding: [10, 20, 10, 20],
@@ -66,6 +66,13 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
     _suffix: '...',
     _limit: 20,
 
+    __fileHoverRowBackground: '#F5F8FA',
+    __fileRowBackground: '#FFF',
+    __fileTextColor: '#4B5B6F',
+    __fileHoverTextColor: '#31A5FF',
+    __fileTextFont: '18px arial, sans-serif',
+    __fileRowHeight: 33,
+
     _fileFilterFunc: function (file) {
         var isFilter = true;
         return isFilter;
@@ -78,6 +85,23 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
             layoutParams = fileData.getLayoutParams() ? fileData.getLayoutParams() : {};
 
         layoutParams.width = 'match_parent';
+        var hoverBackground = self.getFileHoverRowBackground(),
+            activeBackground = hoverBackground,
+            background = self.getFileRowBackground(),
+            textFont = self.getFileTextFont(),
+            textColor = self.getFileTextColor(),
+            hoverTextColor = self.getFileHoverTextColor(),
+            activeTextColor = hoverTextColor,
+            height = self.getFileRowHeight();
+
+        fileData.setHoverBackground(hoverBackground);
+        fileData.setActiveBackground(activeBackground);
+        fileData.setBackground(background);
+        fileData.setTextFont(textFont);
+        fileData.setTextColor(textColor);
+        fileData.setHoverTextColor(hoverTextColor);
+        fileData.setActiveTextColor(activeTextColor);
+        layoutParams.height = height;
 
         fileList.addView(fileData, layoutParams);
 
@@ -248,6 +272,79 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
         return button;
     },
 
+    setButton: function (newButton) {
+        var self = this,
+            button = self._button;
+        self.removeView(button);
+        self._button = newButton;
+        self.addView(newButton, undefined, 0);
+        self.fp('button', button, newButton);
+        newButton.on('click', function () {
+            self.inputFile.click();
+        }, undefined, undefined, undefined, true);
+    },
+
+    setFileRowBackground: function (background) {
+        var self = this;
+        var old = self.__fileRowBackground;
+        self.__fileRowBackground = background;
+        self._fileList.getChildren().each(function(fileData) {
+            fileData.setBackground(background);
+        })
+        self.fp('fileRowBackground', old, background);
+        
+    },
+    setFileHoverRowBackground: function (background) {
+        var self = this;
+        var old = self.__fileHoverRowBackground;
+        self.__fileHoverRowBackground = background;
+        self._fileList.getChildren().each(function (fileData) {
+            fileData.setHoverBackground(background);
+            fileData.setActiveBackground(background);
+        })
+        self.fp('fileHoverRowBackground', old, background);
+    },
+    setFileTextFont: function (textFont) {
+        var self = this;
+        var old = self.__fileTextFont;
+        self.__fileTextFont = textFont;
+        self._fileList.getChildren().each(function(fileData) {
+            fileData.setTextFont(textFont);
+        })
+        self.fp('fileTextFont', old, textFont);
+
+    },
+    setFileTextColor: function (textColor) {
+        var self = this;
+        var old = self.__fileTextColor;
+        self.__fileTextColor = textColor;
+        self._fileList.getChildren().each(function(fileData) {
+            fileData.setTextColor(textColor);
+        })
+        self.fp('fileTextColor', old, textColor);
+    },
+
+    setFileHoverTextColor: function (textColor) {
+        var self = this;
+        var old = self.__fileHoverTextColor;
+        self.__fileHoverTextColor = textColor;
+        self._fileList.getChildren().each(function(fileData) {
+            fileData.setHoverTextColor(textColor);
+            fileData.setActiveTextColor(textColor);
+        })
+        self.fp('fileHoverTextColor', old, textColor);
+    },
+
+    setFileRowHeight: function (height) {
+        var self = this;
+        var old = self.__fileRowHeight;
+        self.__fileRowHeight = height;
+        self._fileList.getChildren().each(function(fileData) {
+            fileData.setLayoutParams('height', height);
+        })
+        self.fp('fileRowHeight', old, height);
+    },
+
     setAccept: function (type) {
         var self = this,
             inputFile = self.inputFile;
@@ -349,6 +446,7 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
             multiple: true,
             accept: true,
             suffix: true,
+            button: true,
 
             deleteIcon: true,
             activeDeleteIcon: true, 
@@ -356,7 +454,13 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
             trueIcon: true, 
             falseIcon: true,
             rightIconHeight: true,
-            rightIconWidth: true
+            rightIconWidth: true,
+            fileRowBackground: true,
+            fileHoverRowBackground: true,
+            fileTextColor: true,
+            fileHoverTextColor: true,
+            fileTextFont: true,
+            fileRowHeight: true
         });
     },
 

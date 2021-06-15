@@ -211,6 +211,90 @@ ht.ui.Uploader.prototype.removeFileData = function (fileData) { }
 ht.ui.Uploader.prototype.createButton = function () { }
 
 /**
+ * 设置一个新的文件上传按钮
+ * @param {ht.ui.Button} 按钮
+ */
+ht.ui.Uploader.prototype.setButton = function () {}
+
+/**
+ * 获取当前文件上传按钮
+ * @return {ht.ui.Button} 按钮
+ */
+ht.ui.Uploader.prototype.getButton = function () {}
+
+/**
+ * 设置文件行背景色
+ * @param {Color} 颜色
+ */
+ht.ui.Uploader.prototype.setFileRowBackground = function () {}
+
+/**
+ * 返回文件行背景色
+ * @return {Color} 颜色
+ */
+ht.ui.Uploader.prototype.getFileRowBackground = function () {}
+
+/**
+ * 设置 Hover 状态下的行背景色
+ * @param {Color} 颜色
+ */
+ht.ui.Uploader.prototype.setFileHoverRowBackground = function () {}
+
+/**
+ * 获取 Hover 状态下的行背景色
+ * @return {Color} 颜色
+ */
+ht.ui.Uploader.prototype.getFileHoverRowBackground = function () {}
+
+/**
+ * 设置文件列表字体
+ * @param {String} 字体字符串
+ */
+ht.ui.Uploader.prototype.setFileTextFont = function () {}
+
+/**
+ * 获取文件列表字体
+ * @return {String} 字体字符串
+ */
+ht.ui.Uploader.prototype.getFileTextFont = function () {}
+
+/**
+ * 设置文件列表字体颜色
+ * @param {Color} 颜色
+ */
+ht.ui.Uploader.prototype.setFileTextColor = function () {}
+
+/**
+ * 获取文件列表字体颜色
+ * @return {Color} 颜色
+ */
+ht.ui.Uploader.prototype.getFileTextColor = function () {}
+
+/**
+ * 设置文件列表 Hover 状态下的字体颜色
+ * @param {Color} 颜色
+ */
+ht.ui.Uploader.prototype.setFileHoverTextColor = function () {}
+
+/**
+ * 获取文件列表 Hover 状态下字体颜色
+ * @return {Color} 颜色
+ */
+ht.ui.Uploader.prototype.getFileHoverTextColor = function () {}
+
+/**
+ * 设置文件列表行高
+ * @param {Number} 数字
+ */
+ht.ui.Uploader.prototype.setFileRowHeight = function () {}
+
+/**
+ * 获取文件列表行高
+ * @return {Number} 数字
+ */
+ht.ui.Uploader.prototype.getFileRowHeight = function () {}
+
+/**
  * 获取上传列表中的元素集合
  * @return {ht.List} 按钮，可以重载函数做样式处理
  */

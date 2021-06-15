@@ -78,7 +78,7 @@ Default.def("ht.ui.UploaderFileData", ui.Button, {
         return [ui.UploaderFileDataInteractor];
     },
 
-    getCurrentStateIconDrawable: function () {
+    getCurrentStateIconDrawable: function() {
         var self                = this,
             source              = self._source,
             uploadState         = self.getUploadState(),
@@ -109,7 +109,7 @@ Default.def("ht.ui.UploaderFileData", ui.Button, {
             rightIconHeight     = source.getRightIconHeight(),
 
             deleteIconDrawable  = source.getDeleteIconDrawable(),
-            
+            // 
             currentStateIconDrawable = self.getCurrentStateIconDrawable(),
 
             rightIconState      = self.getRightIconState(),

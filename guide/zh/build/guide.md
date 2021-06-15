@@ -78,12 +78,16 @@
 
 !(#example_uploaderStyle@440)
 
-组件提供对 `suffix`、 `trueIcon`、 `falseIcon`、 `deleteIcon`  等样式属性进行调整
+组件提供对 `suffix`、 `trueIcon`、 `falseIcon`、 `deleteIcon` 、`fileRowBackground`、 `fileTextColor`、 `fileTextFont`、 `fileRowHeight` 等样式属性进行调整, 通过 `set/get` 方式设置或者获取属性。
 
 * `suffix`：上传文件名过长时，结尾省略的字段，默认 `...`
 * `trueIcon`：上传成功态图标，大小通过 `rightIconHeight` 和 `rightIconWidth` 控制，提供 `Drawable` 对象可进行绘制控制
 * `falseIcon`：上传失败态图标，大小通过 `rightIconHeight` 和 `rightIconWidth` 控制，提供 `Drawable` 对象可进行绘制控制
 * `deleteIcon`：删除图标，分为 `hover`、 `active`、 `normal` 三态，分别通过 `hoverDeleteIcon`、 `activeDeleteIcon`、 `deleteIcon` 三个样式属性控制，三态均通过 `rightIconHeight` 和 `rightIconWidth` 控制大小，但是三态分别提供独立的 `Drawable` 对象
+* `fileRowBackground`：文件列表行背景色，默认 `#fff`，并提供 `fileHoverRowBackground` 属性配置 `hover` 状态下的文件列表行背景颜色
+* `fileTextColor`：文件列表文字颜色，默认 `#4B5B6F`，并提供 `fileHoverTextColor` 属性配置 `hover` 状态下的文件列表文字颜色
+* `fileTextFont`：文件列表文字字体，默认 `18px arial, sans-serif`
+* `fileRowHeight`：文件列表行高，默认 `33`
 
 代码如下：
 
@@ -113,6 +117,8 @@
         button.setBorder(new ht.ui.border.LineBorder(1, 'rgb(0,153,173)'));
         return button;
     };
+
+可以使用 `setButton/getButton` 重新设置或者获取当前上传按钮，从而设置上传按钮样式属性等
 
 子组件 `fileData` 也继承于 [`ht.ui.Button`](http://www.hightopo.cn/ui/guide/zh/button/ht-ui-button-guide.html)，可以通过 `addViewListener` 监听 `fileDataCreating` 事件对独立的 `fileData` 进行样式控制，代码如下：
 

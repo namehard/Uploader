@@ -208,6 +208,8 @@
 
 <div id="ref_popOption"></div>
 
+<p>如果需要一次性清空所有数据，可以通过 <code>clearFileDatas</code> 删除所有上传数据。</p>
+
 <h3>弹窗设置</h3>
 
 <p>组件点击上传按钮后，有一个文件选择弹窗，有两个相关属性 <code>multiple</code> 和 <code>accept</code>：</p>
@@ -245,9 +247,9 @@ fullName = file.fullName;</code></pre>
 
 <p><iframe src="examples/example_uploaderStyle.html" style="height:440px"></iframe></p>
 
-<p>组件提供对 <code>suffix</code>、 <code>trueIcon</code>、 <code>falseIcon</code>、 <code>deleteIcon</code>  等样式属性进行调整</p>
+<p>组件提供对 <code>suffix</code>、 <code>trueIcon</code>、 <code>falseIcon</code>、 <code>deleteIcon</code> 、<code>fileRowBackground</code>、 <code>fileTextColor</code>、 <code>fileTextFont</code>、 <code>fileRowHeight</code> 等样式属性进行调整, 通过 <code>set/get</code> 方式设置或者获取属性。</p>
 
-<ul><li><code>suffix</code>：上传文件名过长时，结尾省略的字段，默认 <code>...</code></li><li><code>trueIcon</code>：上传成功态图标，大小通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制，提供 <code>Drawable</code> 对象可进行绘制控制</li><li><code>falseIcon</code>：上传失败态图标，大小通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制，提供 <code>Drawable</code> 对象可进行绘制控制</li><li><code>deleteIcon</code>：删除图标，分为 <code>hover</code>、 <code>active</code>、 <code>normal</code> 三态，分别通过 <code>hoverDeleteIcon</code>、 <code>activeDeleteIcon</code>、 <code>deleteIcon</code> 三个样式属性控制，三态均通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制大小，但是三态分别提供独立的 <code>Drawable</code> 对象</li></ul>
+<ul><li><code>suffix</code>：上传文件名过长时，结尾省略的字段，默认 <code>...</code></li><li><code>trueIcon</code>：上传成功态图标，大小通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制，提供 <code>Drawable</code> 对象可进行绘制控制</li><li><code>falseIcon</code>：上传失败态图标，大小通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制，提供 <code>Drawable</code> 对象可进行绘制控制</li><li><code>deleteIcon</code>：删除图标，分为 <code>hover</code>、 <code>active</code>、 <code>normal</code> 三态，分别通过 <code>hoverDeleteIcon</code>、 <code>activeDeleteIcon</code>、 <code>deleteIcon</code> 三个样式属性控制，三态均通过 <code>rightIconHeight</code> 和 <code>rightIconWidth</code> 控制大小，但是三态分别提供独立的 <code>Drawable</code> 对象</li><li><code>fileRowBackground</code>：文件列表行背景色，默认 <code>#fff</code>，并提供 <code>fileHoverRowBackground</code> 属性配置 <code>hover</code> 状态下的文件列表行背景颜色</li><li><code>fileTextColor</code>：文件列表文字颜色，默认 <code>#4B5B6F</code>，并提供 <code>fileHoverTextColor</code> 属性配置 <code>hover</code> 状态下的文件列表文字颜色</li><li><code>fileTextFont</code>：文件列表文字字体，默认 <code>18px arial, sans-serif</code></li><li><code>fileRowHeight</code>：文件列表行高，默认 <code>33</code></li></ul>
 
 <p>代码如下：</p>
 
@@ -277,6 +279,8 @@ uploader.setRightIconHeight(20);</code></pre>
     button.setBorder(new ht.ui.border.LineBorder(1, &#39;rgb(0,153,173)&#39;));
     return button;
 };</code></pre>
+
+<p>可以使用 <code>setButton/getButton</code> 重新设置或者获取当前上传按钮，从而设置上传按钮样式属性等</p>
 
 <p>子组件 <code>fileData</code> 也继承于 <a href="http://www.hightopo.cn/ui/guide/zh/button/ht-ui-button-guide.html"><code>ht.ui.Button</code></a>，可以通过 <code>addViewListener</code> 监听 <code>fileDataCreating</code> 事件对独立的 <code>fileData</code> 进行样式控制，代码如下：</p>
 
