@@ -39,7 +39,12 @@ Default.def("ht.ui.UploaderFileData", ui.Button, {
     _getShowFileName: function (fileFont, fileName, limitWidth) {
         var self        = this,
             source      = self._source,
-            textSize    = Default.getTextSize(fileFont, fileName),
+            defaultFileNameFommatter = function (fileName) { return fileName },
+            fileNameFommatter = source._fileNameFommatter ? source._fileNameFommatter instanceof Function ? source._fileNameFommatter : defaultFileNameFommatter : defaultFileNameFommatter;
+        
+        fileName = fileNameFommatter(fileName) === undefined ? defaultFileNameFommatter(fileName) : fileNameFommatter(fileName);
+
+        var textSize    = Default.getTextSize(fileFont, fileName),
             suffix      = source.getSuffix(),
             suffixSize  = Default.getTextSize(fileFont, suffix),
             realWidth   = limitWidth - suffixSize.width,

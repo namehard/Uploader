@@ -223,6 +223,18 @@ ht.ui.Uploader.prototype.setButton = function () {}
 ht.ui.Uploader.prototype.getButton = function () {}
 
 /**
+ * 设置文件名格式函数
+ * @param {Function} 格式筛选函数，默认 function(fileName) {return fileName}
+ */
+ht.ui.Uploader.prototype.setFileNameFommatter  = function () { }
+
+/**
+ * 获取文件名格式函数
+ * @return {Function} 格式筛选函数，默认 function(fileName) {return fileName}
+ */
+ht.ui.Uploader.prototype.getFileNameFommatter  = function () { }
+
+/**
  * 设置文件行背景色
  * @param {Color} 颜色
  */

@@ -176,7 +176,7 @@
         <hr style="margin: 1px 0 20px 0">
 <p>索引</p>
 
-<ul><li><a href="#ref_description">概述</a></li><li><a href="#ref_base">基础功能</a></li><li><a href="#ref_popOption">弹窗设置</a></li><li><a href="#ref_state">上传状态</a></li><li><a href="#ref_style">组件样式</a></li><li><a href="#ref_filter">上传筛选</a></li></ul>
+<ul><li><a href="#ref_description">概述</a></li><li><a href="#ref_base">基础功能</a></li><li><a href="#ref_popOption">弹窗设置</a></li><li><a href="#ref_state">上传状态</a></li><li><a href="#ref_style">组件样式</a></li><li><a href="#ref_filter">上传筛选</a></li><li><a href="#ref_fomatter">文件名格式化</a></li></ul>
 
 <hr/>
 
@@ -322,7 +322,17 @@ uploader.addViewListener(e =&gt; {
     return file.size &gt; 512000 ? false: true;
 });</code></pre>
 
-<p><iframe src="examples/example_uploaderFilter.html" style="height:440px"></iframe></p>    <hr id="contact" style="margin: 20px 0 1px 0">
+<p><iframe src="examples/example_uploaderFilter.html" style="height:440px"></iframe></p>
+
+<div id="ref_fomatter"></div>
+
+<h3>文件名格式化</h3>
+
+<p>组件提供格式化函数 <code>fileNameFommatter</code> ，通过 <code>set/get</code> 方式设置获取，实现根据不同需求格式化修改文件名的功能，设置代码如下：</p>
+
+<pre><code>uploader.setFileNameFommatter (function(fileName) {
+    return &quot;name:&quot; + fileName;
+});</code></pre>    <hr id="contact" style="margin: 20px 0 1px 0">
     <a href="http://www.hightopo.com"><img class="logo"></a>欢迎交流 <a href="mailto:service@hightopo.com">service@hightopo.com</a>
 </body>
 </html>

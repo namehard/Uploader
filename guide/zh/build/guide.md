@@ -7,6 +7,7 @@
 * [上传状态](#ref_state)
 * [组件样式](#ref_style)
 * [上传筛选](#ref_filter)
+* [文件名格式化](#ref_fomatter)
 
 ---
 
@@ -160,3 +161,12 @@
     });
 
 !(#example_uploaderFilter@440)
+
+!(#ref_fomatter)
+### 文件名格式化
+组件提供格式化函数 `fileNameFommatter` ，通过 `set/get` 方式设置获取，实现根据不同需求格式化修改文件名的功能，设置代码如下：
+
+    uploader.setFileNameFommatter (function(fileName) {
+        return "name:" + fileName;
+    });
+

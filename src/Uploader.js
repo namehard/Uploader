@@ -52,7 +52,7 @@ var setFileDataPropertyValue = function(uploader, type, ukey, fkey, value) {
 
 Default.def('ht.ui.Uploader', ui.VBoxLayout, {
     ms_ac: [
-        'fileFilterFunc', 'multiple', 'accept', 'suffix', 'limit', 'button'
+        'fileFilterFunc', 'multiple', 'accept', 'suffix', 'limit', 'button', 'fileNameFommatter'
     ],
 
     ui_ac: [
@@ -267,6 +267,18 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
         return path;
     },
 
+    _fileNameFommatter: function (fileName) {
+        return fileName;
+    },
+
+    setFileNameFommatter: function (fileNameFommatter) {
+        var self = this;
+        self._fileNameFommatter = fileNameFommatter;
+        self.getFileDatas().each(function (fileData) {
+            fileData.iv();
+        })
+    },
+
     // 删除 fileData
     removeFileData: function (fileData) {
         var self = this,
@@ -437,6 +449,7 @@ Default.def('ht.ui.Uploader', ui.VBoxLayout, {
             accept: true,
             suffix: true,
             button: true,
+            fileNameFommatter: true,
 
             deleteIcon: true,
             activeDeleteIcon: true, 
